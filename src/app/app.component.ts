@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
+
+declare var Zone: any;
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,23 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
+
+  constructor(private zone: NgZone) {
+    
+  }
+
+  ngOnInit() {
+    // Zone.current.fork({}).run(() => {
+    //   setInterval(() => {
+    //     this.time = new Date().toLocaleString();
+    //     console.log(this.zone.isStable);
+    //   }, 100);
+    // });
+    new Zone().run(() => {
+      setInterval(() => {
+       // this.time = new Date().toLocaleString();
+        //console.log(this.zone.isStable);
+      }, 100);
+    });
+  }
 }

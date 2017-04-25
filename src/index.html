@@ -4,11 +4,37 @@
   <meta charset="utf-8">
   <title>AngularTimer</title>
   <base href="/">
-
+  <script src="https://code.angularjs.org/1.6.0/angular.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <script>
+        angular.module('angular-legacy', []);
+        angular.module('angular-legacy').controller('timeController', function($interval){
+          var vm = this;
+          vm.title = 'Current Time:';
+
+          // DOES NOT WORK
+          // Zone.current.fork({}).run(function(){
+          //   $interval(function(){
+          //     vm.time = new Date().toLocaleString();
+          //   }, 500);
+          // });
+
+          new Zone().run(function(){
+            $interval(function(){
+              vm.time = new Date().toLocaleString();
+            }, 500);
+          });
+        });
+    </script>
 </head>
 <body>
-  <app-root>Loading...</app-root>
+   <app-root>Loading...</app-root>
+
+   <div ng-controller="timeController as timeController">
+    {{timeController.title}}
+    {{timeController.time}}
+  </div> 
 </body>
 </html>
